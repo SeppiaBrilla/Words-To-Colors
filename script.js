@@ -1,6 +1,6 @@
 $().ready(()=>{
     $("#submit").click(()=>{
-        toColor(color($("#data").val()));
+        convert($("#data").val());
     });
     $("#data").click(()=>{
         $("#data").val("");
@@ -9,53 +9,32 @@ $().ready(()=>{
     $("#data").on("keyup",(e)=>{
         if(e.keyCode == 13){
             e.preventDefault();
-            toColor(color($("#data").val()));
+            convert($("#data").val());
         }
     });
     $("#data").val("insert some text!");
-    toColor(color($("#data").val()));
+    convert($("#data").val());
 });
 
-function color(text){
+function convert(world){
+    let number_of_char = Math.floor(world.length/3);
+    let r = text_toInt(n_char(world,0,number_of_char)) % 255;
+    let g = text_toInt(n_char(world,number_of_char,number_of_char * 2)) % 255;
+    let b = text_toInt(n_char(world,number_of_char * 2,world.length)) % 255;
+    $("#container").css("background-color", "rgb(" + [r, g, b].join(",") + ")");
+
+}
+function n_char(string, start, end){
+    let ret = "";
+    for(let i = start; i < end; i++){
+        ret +=string[i];
+    }
+    return ret;
+}
+function text_toInt(text){
     let integer = 0;
     for(let i = 0; i < text.length; i++){
         integer += text.charCodeAt(i);
     }
     return integer;
-}
-function toColor(num) {
-    num >>>= 0;
-    let u = num & 0xFF,
-        d = (num & 0xFF00) >>> 8,
-        t = (num & 0xFF0000) >>> 16;
-    let rand = Math.random();
-    let r, g, b;
-    if(rand < 0.17){
-        r = u;
-        g = d;
-        b = t;
-    }else if(rand < 0.34){
-        r = u;
-        b = d;
-        g = t;
-    }else if(rand < 0.51){
-        g = u;
-        r = d;
-        b = t;
-    }else if(rand < 0.68){
-        g = u;
-        b = d;
-        r = t;
-    }else if(rand < 0.85){
-        b = u;
-        r = d;
-        g = t;
-    }else{
-        b = u;
-        g = d;
-        r = t;
-    }
-
-    console.log("rgb(" + [r, g, b].join(",") + ")")
-    $("#container").css("background-color", "rgb(" + [r, g, b].join(",") + ")");
 }
